@@ -1,0 +1,252 @@
+<!DOCTYPE HTML><!--
+    COPYRIGHT LICENSE: This information contains sample code provided in source code form. You may copy, modify, and distribute
+    these sample programs in any form without payment to IBM� for the purposes of developing, using, marketing or distributing
+    application programs conforming to the application programming interface for the operating platform for which the sample code is written.
+    Notwithstanding anything to the contrary, IBM PROVIDES THE SAMPLE SOURCE CODE ON AN "AS IS" BASIS AND IBM DISCLAIMS ALL WARRANTIES,
+    EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY,
+    FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND ANY WARRANTY OR CONDITION OF NON-INFRINGEMENT. IBM SHALL NOT BE LIABLE FOR ANY DIRECT,
+    INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR OPERATION OF THE SAMPLE SOURCE CODE.
+    IBM HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS OR MODIFICATIONS TO THE SAMPLE SOURCE CODE.
+--><html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>SmallSample</title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <link href="wlclient/css/wlclient.css" rel="stylesheet">
+        <link href="images/favicon.png" rel="shortcut icon">
+        <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="css/Simile.css" rel="stylesheet">
+        <script>
+		// Define WL namespace.
+		var WL = WL ? WL : {};
+		/**
+		 * WLClient configuration variables.
+		 * Values are injected by the deployer that packs the gadget.
+		 */
+		WL.StaticAppProps = {
+   "APP_DISPLAY_NAME": "Simile",
+   "APP_ID": "Simile",
+   "APP_SERVICES_URL": "\/apps\/services\/",
+   "APP_VERSION": "1.0",
+   "ENVIRONMENT": "iphone",
+   "LOGIN_DISPLAY_TYPE": "embedded",
+   "WORKLIGHT_PLATFORM_VERSION": "6.0.0",
+   "WORKLIGHT_ROOT_URL": "\/apps\/services\/api\/Simile\/iphone\/"
+};</script>
+		<script src="wlclient/js/cordova.js"></script>
+		<script src="common/js/wljq.js"></script>
+		<script src="common/js/wl_.min.js"></script>
+		<script src="common/js/sjcl.min.js"></script>
+		<script src="wlclient/js/analytics/Tealeaf.min.js"></script>
+		<script src="common/js/stacktrace.min.js"></script>
+		<script src="common/js/base.js"></script>
+		<script src="wlclient/js/messages.js"></script>
+		<script src="common/js/wlcommon.js"></script>
+		<script src="wlclient/js/diagnosticDialog.js"></script>
+		<script src="wlclient/js/deviceAuthentication.js"></script>
+		<script src="wlclient/js/window.js"></script>
+		<script src="wlclient/js/worklight.js"></script>
+		<script src="wlclient/js/wlclient.js"></script>
+		<script src="wlclient/js/wlfragments.js"></script>
+		<script src="wlclient/js/encryptedcache.js"></script>
+		<script src="wlclient/js/analytics/analytics.js"></script>
+		<script src="wlclient/js/checksum.js"></script>
+		<script src="wlclient/js/deviceSensors/triggers.js"></script>
+		<script src="wlclient/js/deviceSensors/acquisition.js"></script>
+		<script src="wlclient/js/deviceSensors/geo.js"></script>
+		<script src="wlclient/js/deviceSensors/wifi.js"></script>
+		<script src="wlclient/js/events/eventTransmitter.js"></script>
+		<script src="wlclient/js/deviceSensors/bind.js"></script>
+		<script src="wlclient/js/deviceSensors/geoUtilities.js"></script>
+		<script src="wlclient/js/challengeHandlers/antiXSRFChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/authenticityChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/deviceAuthAutoProvisioningChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/deviceAuthNoProvisioningChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/remoteDisableChallengeHandler.js"></script>
+		<script src="wlclient/js/deviceSensors/ExtendedGeolocation.js"></script>
+		<script src="wlclient/js/features_stubs/jsonstore_stub.js"></script>
+		<script src="wlclient/js/json2.js"></script>
+		<script src="wlclient/js/wlgap.ios.js"></script>
+		<script>window.$ = window.jQuery = WLJQ;</script>
+    		<!--<script type="text/javascript" src="dojox/mobile/deviceTheme.js"></script>-->
+			<script data-dojo-config="mblUserAgent: 'Holodark'" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js" type="text/javascript"></script>    		
+	<!-- dojo configuration options -->
+	<script type="text/javascript">
+		dojoConfig = {
+			async: true,
+			baseUrl: './',
+			parseOnLoad: false,
+			mblHideAddressBar: true,
+			extraLocale: ["en-us", "fr-fr", "de-de", "it-it", "ko-kr", "pt-br", "es-us", "zh-hk"],
+			packages: [{
+				name: "simile",
+				location: "js/simile"
+			}]
+		};
+	</script>
+	<!-- dojo bootstrap -->
+	<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" type="text/javascript"></script>
+	<script src="http://openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>  
+	<!-- dojo application code -->
+	<script>
+		var mapLoc;
+		// Load the widget parser and mobile base
+		require([
+			"dojox/mobile/parser",
+			"dijit/registry",
+			"dojo/ready",
+			"dojox/geo/openlayers/Map",
+			"dojo/window",
+			"dojo/dom-style",
+			"dojox/mobile/compat",
+			"dojox/mobile/ScrollableView",
+			"dojox/mobile/ListItem",
+			"dojox/mobile/FormLayout",
+			"dojox/mobile/TextBox",
+			"dojox/mobile/RadioButton",
+			"dojox/mobile/Heading",
+			"dojox/mobile/EdgeToEdgeList",
+			"dojox/mobile/RoundRect",
+			"dojox/mobile/Switch",
+			"dojox/mobile/Button",
+			"dojox/mobile/Icon",
+			"dojox/mobile/TabBar",
+			"dojox/mobile/TabBarButton",
+			"simile/LoginView",
+			"simile/MobileSearchView",
+			"simile/OrderView",			
+			"simile/CommonView",
+			"dojo/domReady!"
+		], function (parser, registry, ready,  Map , win, domStyle) {
+			flickrview = {};
+			flickrview.QUERY = {
+				tags: "famous,bridges",
+				tagmode: "all",
+				format: "json",
+				lang: "en-us"
+			};
+			// Parse the page for widgets
+			parser.parse();
+			// refresh at startup
+			//registry.byId("feed").refresh();
+			/*var vs = win.getBox();
+			//populate the map
+ 	 		mapLoc = new Map("map", {
+        		baseLayerType : dojox.geo.openlayers.BaseLayerType.GOOGLE
+      		});
+   			// This is New York location
+    		var ny = {
+      			latitude : 77.605324, 
+      			longitude : 12.903108
+    			};
+    		// fit to New York with 0.1 degrees extent
+    		mapLoc.fitTo({
+      			position : [ ny.longitude, ny.latitude ],
+      			extent : 0.5
+    		});
+			//domStyle.set("map", "width", vs.w + "px");
+    		//domStyle.set("map', "height", vs.h + "px");*/
+		});
+	</script>  
+    </head>
+    <body style="visibility:hidden;">
+<!-- Login view -->
+        <div data-dojo-type="simile/LoginView" id="loginContainer">
+            <div data-dojo-props="fixed: 'top',label: 'Simile'" data-dojo-type="dojox/mobile/Heading">
+		 	<!--<span data-dojo-type="dojox/mobile/ToolBarButton"
+						  data-dojo-props="icon: 'images/SimileIcon.png', moveTo:'#', transitionDir:'-1', transition:'none',label: 'Simile'"
+						  style=""></span>-->
+			  <!--<span id="login" data-dojo-type="dojox/mobile/ToolBarButton"
+					data-dojo-props="label:'Login', moveTo:'#', transition:'none'" style="float:right;"></span>-->
+            </div>
+            <div data-dojo-type="dojox/mobile/RoundRect" id="loginForm">
+                <div style="">
+                    <div data-dojo-props="icon:&quot;images/SimileIconBig.png&quot;" data-dojo-type="dojox/mobile/Icon" style="margin-top:15%;margin-left:25%;margin-bottom:20px"></div>
+                    <div data-dojo-props="columns:'one'" data-dojo-type="dojox/mobile/FormLayout">
+                        <div style="">
+                            <fieldset>
+                                <input data-dojo-props="value:''" data-dojo-type="dojox/mobile/TextBox" id="userId" placeHolder="  Enter Your Mobile Number" style="margin-top: 5%; margin-left: 5%; margin-bottom: 20px;width:250px;height:40px;background-color:lightgray" type="text">
+                            </fieldset>
+                        </div>	
+                        <button data-dojo-type="dojox/mobile/Button" id="login" style="margin-left:35%;width:100px">Login</button>		
+                    </div>
+                </div>	
+            </div>
+        </div>
+<!-- Mobile Search view -->
+        <div data-dojo-type="simile/MobileSearchView" id="mobileSearchView">
+            <div data-dojo-props="fixed: 'top',label: 'Simile', float: 'right'" data-dojo-type="dojox/mobile/Heading" id="mobileSearchHeading">
+                <span data-dojo-props="icon: 'images/SimileIcon.png', moveTo:'#', transitionDir:'-1', transition:'none',label: 'Simile'" data-dojo-type="dojox/mobile/ToolBarButton" style=""></span>
+			  <!--<span id="login" data-dojo-type="dojox/mobile/ToolBarButton"
+					data-dojo-props="label:'Login', moveTo:'#', transition:'none'" style="float:right;"></span>-->
+            </div>
+            <div data-dojo-type="dojox/mobile/RoundRect" id="mobileSearchForm">
+                <div style="">
+                    <div data-dojo-props="columns:'one'" data-dojo-type="dojox/mobile/FormLayout">
+                        <div id="mobileBody" style="">
+                            <div>It's pleasant to find common traits. You will be surprised to find some</div>
+                            <fieldset>
+                                <input data-dojo-props="value:''" data-dojo-type="dojox/mobile/TextBox" id="mobileNo" placeHolder="  Enter Aquaintance Mobile Number" style="margin-top: 5%; margin-left: 5%; margin-bottom: 20px;width:250px;height:40px;background-color:lightgray" type="text">
+                            </fieldset>
+                        </div>	
+                        <button data-dojo-type="dojox/mobile/Button" id="mobileSearchButton" style="margin-left:35%;width:100px">Find</button>		
+                    </div>
+                </div>	
+            </div>
+        </div>
+<!-- Order view -->
+<!--<div id="orderContainer" data-dojo-type="simile/OrderView">
+	<div id="orderSearchHeading" style="text-overflow: ellipsis; text-align:  "
+		 data-dojo-type="dojox/mobile/Heading"
+		 data-dojo-props="fixed: 'top', label: 'Track Order'">
+			  <span id="search" data-dojo-type="dojox/mobile/ToolBarButton"
+					data-dojo-props="label:'Track Order', moveTo:'#', transition:'none'" style="float:right;"></span>
+	</div>
+	<div id="orderSearchForm" data-dojo-type="dojox/mobile/RoundRect" style="visibility:hidden">
+		<div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'two'">
+			<div id="orderBody">
+				<label for="orderNo">Order No</label>
+				<fieldset>
+					<input type="text" id="orderNo" data-dojo-type="dojox/mobile/TextBox" data-dojo-props="value:''">
+				</fieldset>
+			</div>
+			<button data-dojo-type="dojox/mobile/Button" id="trackOrder">Track Order</button>		
+		</div>	
+	</div>
+</div>-->
+<!-- Feed view -->
+        <div data-dojo-type="simile/CommonView" id="commonView">
+            <div data-dojo-props="fixed: 'top',label: 'Simile', float: 'right'" data-dojo-type="dojox/mobile/Heading" id="commonHeading">
+                <span data-dojo-props="icon: 'images/SimileIcon.png', moveTo:'#', transitionDir:'-1', transition:'none',label: 'Simile'" data-dojo-type="dojox/mobile/ToolBarButton" style=""></span>
+					<span data-dojo-props="icon: 'images/navigation/light.png', moveTo:'mobileSearchView', transitionDir:'-1', transition:'slide'" data-dojo-type="dojox/mobile/ToolBarButton" id="backButton" style="float:right;"></span>
+            </div>
+            <ul data-dojo-props="barType:&quot;tallTab&quot;, iconBase:&quot;&quot;, fill:&quot;auto&quot;" data-dojo-type="dojox/mobile/TabBar">
+                <li data-dojo-props="icon1:&quot;images/location/light.png&quot;,
+                       icon2:&quot;images/location/light.png&quot;,
+                       selected:true" data-dojo-type="dojox/mobile/TabBarButton">Common Locations</li>
+                <li data-dojo-props="icon1:&quot;images/group/light.png&quot;,
+                       icon2:&quot;images/group/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton">Sprite</li>
+                <li data-dojo-props="icon1:&quot;images/professional/light.png&quot;,
+                       icon2:&quot;images/professional/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton">DOM Button</li>
+            </ul>	
+	<!--<div id="commonSubHeading" data-dojo-type="dojox/mobile/Heading"
+		 data-dojo-props="fixed: 'top'">
+		 	<span id="commonLocations"data-dojo-type="dojox/mobile/ToolBarButton"
+						  data-dojo-props="icon: 'images/location/light.png', moveTo:'#', transitionDir:'-1', transition:'none'"
+						  style=""></span>
+		 	<span id="commonInterests"data-dojo-type="dojox/mobile/ToolBarButton"
+						  data-dojo-props="icon: 'images/group/light.png', moveTo:'#', transitionDir:'-1', transition:'none'"
+						  style=""></span>						  
+			<span id="commonProfessional" data-dojo-type="dojox/mobile/ToolBarButton"
+						  data-dojo-props="icon: 'images/professional/light.png'"
+						  style="float:right;"></span>
+	</div>	-->
+            <div id="map" style="background-color: #b5d0d0; width: 40px; height: 50px;"></div>
+        </div>
+        <script src="js/initOptions.js"></script>
+    		<script src="js/Simile.js"></script>
+    		<script src="js/messages.js"></script>
+    </body>
+</html>

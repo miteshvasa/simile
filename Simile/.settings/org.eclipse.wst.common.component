@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Simile">
+        <wb-resource deploy-path="/" source-path="/apps/Simile/common"/>
+        <wb-resource deploy-path="/" source-path="/apps/Simile/iphone"/>
+        <wb-resource deploy-path="/" source-path="/apps/Simile/android"/>
+        <property name="context-root" value="Simile"/>
+    </wb-module>
+</project-modules>
