@@ -11,16 +11,16 @@ define([
 	"dojo/request/script",
 	"dojox/mobile/ListItem",
 	"dojox/geo/openlayers/Map",
-	"dojo/dom"
-], function(declare, ScrollableView, registry, lang, array, locale, domClass, ProgressIndicator, scriptRequest, ListItem, map, dom){
+	"dojo/dom",
+	"dojo/query",
+	 "dojo/NodeList-dom"
+], function(declare, ScrollableView, registry, lang, array, locale, domClass, ProgressIndicator, scriptRequest, ListItem, map, dom, query){
 
 	return declare([ScrollableView], {
 		refreshButton: null,
 		map: null,
 		commonHeading: null,
 		progressIndicator: null,
-		detailsContainer:null,
-		detailsHeading:null,
 		// Create a template string for a photo ListItem
 		flickrviewItemTemplateString:
 			'<img src="${photo}" width="80px" height="80px" alt="${title}" style="float:left;"/>' +
@@ -47,12 +47,16 @@ define([
 			//this.refreshButton = registry.byId("refreshButton");
 			this.map = dom.byId("map");
 			this.commonHeading = registry.byId("commonHeading");
-			this.detailsContainer = registry.byId("detailsContainer");
-			this.detailsHeading = registry.byId("detailsHeading");
 
 			this.progressIndicator = ProgressIndicator.getInstance();
 
 			// add click handler to the button that call refresh
+			this.refresh();
+			
+			//the icons in the sub heading are not coming properly
+			//query(".mblTabBarButtonIconArea").style({ width:"100% !important"});
+			//query(".mblToolBarButtonIcon").style({ 'padding-left':"0px"});
+			
 			//this.refreshButton.on("click", lang.hitch(this, this.refresh) );
 		},
 		// refresh view with content from Flickr
@@ -85,7 +89,9 @@ define([
 			this.progressIndicator.stop();
 			//this.feedList.destroyDescendants();
 			// restore the title
-			this.commonHeading.set('label','');
+			this.commonHeading.set('label','Common Traits');
+			
+			
 
 			//populate the map
 		   // this.mapLoc = new Map("map", {

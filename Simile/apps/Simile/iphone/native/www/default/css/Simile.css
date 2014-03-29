@@ -12,6 +12,22 @@ a, abbr, address, article, aside, audio, b, blockquote, body, canvas, caption, c
 	margin: 0 auto;
 	width: 320px;
 }
+
+#map{
+width:100%;
+height: 365px;
+background-color: #b5d0d0;
+}
+
+
+div.mblTabBarButtonIconArea{
+	margin : 0 auto !important;
+	width:100% !important;
+}
+
+.mblToolBarButtonIcon{
+	padding-left:0px !important;
+} 
 /* Stylesheet content from css/Simile.css in folder iphone */
 
 /* this CSS file extends the application CSS file found under common\css */

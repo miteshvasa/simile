@@ -12,8 +12,10 @@ define([
 	"dojox/mobile/ListItem",
 	"dojo/dom-construct",
 	"dojo/dom-style",
-	"dojo/dom"
-], function(declare, ScrollableView, registry, lang, array, locale, domClass, ProgressIndicator, scriptRequest, ListItem, domConstruct, domStyle, dom){
+	"dojo/dom",
+	"dojo/query",
+	 "dojo/NodeList-dom"	
+], function(declare, ScrollableView, registry, lang, array, locale, domClass, ProgressIndicator, scriptRequest, ListItem, domConstruct, domStyle, dom, query){
 
 	return declare([ScrollableView], {
 		mobileSearchForm: null,
@@ -69,6 +71,8 @@ define([
 			this.mobileSearchButton = registry.byId("mobileSearchButton");
 
 			this.progressIndicator = ProgressIndicator.getInstance();
+			
+			//query(".mblToolBarButtonIcon").style({ 'padding-left':"0px"});			
 		},
 		// refresh view with content from Flickr
 		refresh: function() {
