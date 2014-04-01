@@ -33,7 +33,7 @@
         <key>Key</key>
         <string>serverURL</string>
         <key>DefaultValue</key>
-        <string>http://9.124.211.5:10080/Simile/</string>
+        <string>http://9.113.249.88:10080/Simile/</string>
         <key>KeyboardType</key>
         <string>Alphabet</string>
       </dict>

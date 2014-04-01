@@ -1,13 +1,4 @@
-<!DOCTYPE HTML><!--
-    COPYRIGHT LICENSE: This information contains sample code provided in source code form. You may copy, modify, and distribute
-    these sample programs in any form without payment to IBM� for the purposes of developing, using, marketing or distributing
-    application programs conforming to the application programming interface for the operating platform for which the sample code is written.
-    Notwithstanding anything to the contrary, IBM PROVIDES THE SAMPLE SOURCE CODE ON AN "AS IS" BASIS AND IBM DISCLAIMS ALL WARRANTIES,
-    EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY,
-    FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND ANY WARRANTY OR CONDITION OF NON-INFRINGEMENT. IBM SHALL NOT BE LIABLE FOR ANY DIRECT,
-    INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR OPERATION OF THE SAMPLE SOURCE CODE.
-    IBM HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS OR MODIFICATIONS TO THE SAMPLE SOURCE CODE.
---><html>
+<!DOCTYPE HTML><html>
     <head>
         <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="UTF-8">
@@ -93,6 +84,7 @@
 	<!-- dojo application code -->
 	<script>
 		var mapLoc;
+		var	totalCompatibility;
 		// Load the widget parser and mobile base
 		require([
 			"dojox/mobile/parser",
@@ -116,9 +108,9 @@
 			"dojox/mobile/TabBar",
 			"dojox/mobile/TabBarButton",
 			"simile/LoginView",
-			"simile/MobileSearchView",
-			"simile/OrderView",			
-			"simile/CommonView",
+			"simile/MobileSearchView",		
+			"simile/MapCommonView",
+			"simile/PersonalCommonView",			
 			"dojo/domReady!"
 		], function (parser, registry, ready,  Map , win, domStyle) {
 			flickrview = {};
@@ -132,45 +124,10 @@
 			parser.parse();
 			// refresh at startup
 			//registry.byId("feed").refresh();
-			/*var useragent = navigator.userAgent;
-  			var mapdiv = document.getElementById("map");
-  			if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1 ) {
-    			mapdiv.style.width = '100%';
-    			mapdiv.style.height = '100%';
-  			} else {
-    			mapdiv.style.width = '600px';
-    			mapdiv.style.height = '800px';
-  			}*/
-/*var latLang = new google.maps.LatLng(31.222744, 30.041161); 
-    var mapOptions = { 
-        center: latLang, 
-        zoom: 10, 
-        mapTypeId: google.maps.MapTypeId.ROADMAP 
-    }; 
-    mapLoc = new google.maps.Map(document.getElementById("map"), mapOptions);  		*/	
-				//var extent = new OpenLayers.Bounds(-180,-157.9,180,157.9);
-				//var options = {restrictedExtent:extent, maxExtent:extent, maxResolution:.88};			
-				var tileSizeVar = new OpenLayers.Size(256,256);
-				mapLoc = new OpenLayers.Map('map',{tileSize: tileSizeVar });
-				var google_streets = new OpenLayers.Layer.Google(
-				'Google Bangalore',
-				{type: google.maps.MapTypeId.ROADMAP},
-				{}
-				);
-				//var mercator = new OpenLayers.Projection("EPSG:900913");
-				//var geographic = new OpenLayers.Projection("EPSG:4326");
-				mapLoc.addLayers([google_streets]);
-				mapLoc.setCenter(new OpenLayers.LonLat(12.903108, 77.605324));
-				mapLoc.zoomTo(3);
-				//mapLoc.setCenter(new OpenLayers.LonLat(-10, 20).transform(geographic, mercator), 0);
-				if(!mapLoc.getCenter()){
-						mapLoc.zoomToMaxExtent();
-				}
-				console.log('the tile size is:::' + mapLoc.tileSize);
 		});
 	</script>
     </head>
-    <body style="visibility:hidden;">
+    <body id="content" style="visibility:hidden;">
 <!-- Login view -->
         <div data-dojo-type="simile/LoginView" id="loginContainer">
             <div data-dojo-props="fixed: 'top',label: 'Simile'" data-dojo-type="dojox/mobile/Heading">
@@ -213,24 +170,45 @@
                 </div>	
             </div>
         </div>
-<!-- Common view -->
-        <div data-dojo-type="simile/CommonView" id="commonView">
-            <div data-dojo-props="fixed: 'top',label: 'Simile', float: 'right'" data-dojo-type="dojox/mobile/Heading" id="commonHeading">
+<!-- Map Common view -->
+        <div data-dojo-type="simile/MapCommonView" id="mapCommonView">
+            <div data-dojo-props="fixed: 'top',label: 'Simile', float: 'right'" data-dojo-type="dojox/mobile/Heading" id="mapCommonHeading">
                 <span data-dojo-props="icon: 'images/SimileIcon.png', moveTo:'#', transitionDir:'-1', transition:'none',label: 'Simile'" data-dojo-type="dojox/mobile/ToolBarButton" style=""></span>
-					<span data-dojo-props="icon: 'images/navigation/back_light.png', moveTo:'mobileSearchView', transitionDir:'-1', transition:'slide'" data-dojo-type="dojox/mobile/ToolBarButton" id="backButton" style="float:right;"></span>
+					<span data-dojo-props="icon: 'images/navigation/back_light.png', moveTo:'mobileSearchView', transitionDir:'-1', transition:'slide'" data-dojo-type="dojox/mobile/ToolBarButton" id="mapCommonBackButton" style="float:right;"></span>
             </div>
             <div id="subHeading" style="height:100%">
                 <ul data-dojo-props="barType:&quot;tallTab&quot;, iconBase:&quot;&quot;, fill:&quot;auto&quot;" data-dojo-type="dojox/mobile/TabBar" style="height:100%">
                     <li data-dojo-props="icon1:&quot;images/location/light.png&quot;,
                        icon2:&quot;images/location/light.png&quot;,
-                       selected:true" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
+                       selected:true, transition:&quot;none&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
                     <li data-dojo-props="icon1:&quot;images/group/light.png&quot;,
-                       icon2:&quot;images/group/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
+                       icon2:&quot;images/group/light.png&quot;,
+                       transition:&quot;none&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
                     <li data-dojo-props="icon1:&quot;images/professional/light.png&quot;,
                        icon2:&quot;images/professional/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
                 </ul>
             </div>
             <div id="map" style="width:100%;height: 365px;background-color: #b5d0d0;"></div>
+        </div>
+<!-- Personal Common view -->
+        <div data-dojo-type="simile/PersonalCommonView" id="personalCommonView">
+            <div data-dojo-props="fixed: 'top',label: 'Simile', float: 'right'" data-dojo-type="dojox/mobile/Heading" id="personalCommonHeading">
+                <span data-dojo-props="icon: 'images/SimileIcon.png', moveTo:'#', transitionDir:'-1', transition:'none',label: 'Simile'" data-dojo-type="dojox/mobile/ToolBarButton" style=""></span>
+					<span data-dojo-props="icon: 'images/navigation/back_light.png', moveTo:'mobileSearchView', transitionDir:'-1', transition:'slide'" data-dojo-type="dojox/mobile/ToolBarButton" id="personalCommonBackButton" style="float:right;"></span>
+            </div>
+            <div id="subHeading" style="height:100%">
+                <ul data-dojo-props="barType:&quot;tallTab&quot;, iconBase:&quot;&quot;, fill:&quot;auto&quot;" data-dojo-type="dojox/mobile/TabBar" style="height:100%">
+                    <li data-dojo-props="icon1:&quot;images/location/light.png&quot;,
+                       icon2:&quot;images/location/light.png&quot;,
+                       transition:&quot;none&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
+                    <li data-dojo-props="icon1:&quot;images/group/light.png&quot;,
+                       icon2:&quot;images/group/light.png&quot;,
+                       transition:&quot;none&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
+                    <li data-dojo-props="icon1:&quot;images/professional/light.png&quot;,
+                       icon2:&quot;images/professional/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
+                </ul>
+            </div>
+            <div id="personalCommon" style="width:100%;height: 365px;background-color: #b5d0d0;">We share these interests</div>
         </div>
         <script src="js/initOptions.js"></script>
     		<script src="js/Simile.js"></script>

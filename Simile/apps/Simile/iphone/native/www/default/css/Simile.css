@@ -27,7 +27,12 @@ div.mblTabBarButtonIconArea{
 
 .mblToolBarButtonIcon{
 	padding-left:0px !important;
-} 
+}
+
+
+.gm-style-iw{
+	color:black !important;
+}
 /* Stylesheet content from css/Simile.css in folder iphone */
 
 /* this CSS file extends the application CSS file found under common\css */

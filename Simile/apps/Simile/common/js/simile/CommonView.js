@@ -71,10 +71,10 @@ define([
 		        // Call it
 		        this.onFlickrResponse('abc');
 		    }, 2000);*/
-			scriptRequest.get(this.requestUrl, this.requestOptions).then(lang.hitch(this, this.onFlickrResponse), lang.hitch(this, this.onFlickrError));
+			scriptRequest.get(this.requestUrl, this.requestOptions).then(lang.hitch(this, this.onResponse), lang.hitch(this, this.onError));
 		},
 		// error handler
-		onFlickrError: function(error) {
+		onError: function(error) {
 			// remove progress indicator
 			this.progressIndicator.stop();
 			//this.feedList.destroyDescendants();
@@ -83,7 +83,7 @@ define([
 			alert(error);
 		},
 		//  response handler
-		onFlickrResponse: function(result) {
+		onResponse: function(result) {
 			
 			// remove progress indicator
 			this.progressIndicator.stop();

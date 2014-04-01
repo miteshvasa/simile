@@ -117,8 +117,8 @@ define([
 			
 
 			this.mobileSearchButton.onClick = lang.hitch(this, function(){
-				this.performTransition("commonView");
-				//registry.byId("mapContainer").refresh();
+				this.performTransition("mapCommonView");
+				registry.byId("mapCommonView").refresh();
 			});
 			
 			//this.performTransition("orderContainer");

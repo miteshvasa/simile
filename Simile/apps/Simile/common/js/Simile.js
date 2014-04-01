@@ -120,15 +120,83 @@ function wlCommonInit(){
 	 *    		onFailure: onConnectFailure
 	 *    });
 	 *     
-	 */
-	
-	
+	 */	
 	// Common initialization code goes here
 	
-	// start up acquisition process
-	getFirstPositionAndTrack();
+	//console.log('Checking if it reaches here!!!!!!!');
 	
-	// keep running while in background on Android; will show a notification
-	WL.App.setKeepAliveInBackground(true);
+	//google.maps.event.addDomListener(window, 'load', initialize);
+	
+	initialize();
+	
+	
+
 }
 
+function initialize(){
+	
+	initilizeStartupData();
+	
+	initializeMap();
+	
+	totalCompatibility = mineCompatibiltyResults();
+}
+
+
+function initializeMap(){
+	
+	
+	//This is AllenTown
+	var latLang = new google.maps.LatLng(40.635477, -75.500488); 
+    var mapOptions = { 
+        center: latLang, 
+        zoom: 7, 
+        mapTypeId: google.maps.MapTypeId.ROADMAP 
+    }; 
+    mapLoc = new google.maps.Map(document.getElementById("map"), mapOptions);  	
+   
+}
+
+
+
+
+/**
+ * This is were the JSON store is created
+ */
+function initilizeStartupData(){}
+
+
+function mineCompatibiltyResults(){
+	
+    var temp;
+    var compatibilityResults;
+	require(["dojo/json"], function(JSON){	
+	
+	compatibilityResults ={"commonLocations" : [
+			                     //This is Allentown
+			                     {"lat": "40.635477", "long": "-75.500488"},
+			                     //This is New York , Star Bucks
+			                     {"lat": "40.710927", "long": "-74.009858"},
+			                     //This is Philadelphia Museum of Art
+			                     {"lat": "39.965572", "long": "-75.182177"}
+			                     ],
+		    "commonInterests" :  [],		    
+		    "commonProfessional" : []
+		};
+	
+		
+		/*
+		//This is Allentown
+        {"lat": 40.635477, "long": -75.500488},
+        //This is New York , Star Bucks
+        {"lat": 40.710927, "long": -74.009858},
+        //This is Philadelphia Museum of Art
+        {"lat": 39.965572, "long": -75.182177}*/
+		//temp = JSON.parse('{"commonLocations" : [{"lat": "40.635477", "long": "-75.500488"},{"lat": "40.710927", "long": "-74.009858"},{"lat": "39.965572", "long": "-75.182177"}],"commonInterests" : [],"commonProfessional":[]}');
+		 
+		temp = JSON.parse(JSON.stringify(compatibilityResults));
+		  //return temp;
+		});
+	
+	return temp;
+}
