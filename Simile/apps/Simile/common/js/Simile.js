@@ -140,6 +140,14 @@ function initialize(){
 	initializeMap();
 	
 	totalCompatibility = mineCompatibiltyResults();
+	
+	var personalData = totalCompatibility.commonInterests;
+	
+	initializePersonalAndProfessionalData(personalData,'personalCommon');
+	
+	var professionalData = totalCompatibility.commonProfessional;
+	
+	initializePersonalAndProfessionalData(professionalData,'professionalCommon');
 }
 
 
@@ -154,11 +162,32 @@ function initializeMap(){
         mapTypeId: google.maps.MapTypeId.ROADMAP 
     }; 
     mapLoc = new google.maps.Map(document.getElementById("map"), mapOptions);  	
-   
 }
 
 
-
+function initializePersonalAndProfessionalData(data, div){
+	
+	require(["dojo/dom","dojo/dom-construct"], function(dom, domConstruct){
+		
+		for (var i = 0; i< data.length; i++){
+			
+			var comp = data[i];
+			for (key in comp) {
+				console.log('The key is::::'+ key);	
+				var val  = dojo.getObject(key, false, comp);
+				console.log('The val is::::'+ val);
+				
+				var construct = domConstruct.toDom("<div id='compatibilty'><div id='compatibiltyHeader'>" + key + "</div><div id='compatibiltyContent'>" +  val + "</div></div>");
+				domConstruct.place(construct, div , i);
+			}
+			
+		}
+		
+		
+	});
+	var abc = '';
+	
+}
 
 /**
  * This is were the JSON store is created
@@ -180,8 +209,15 @@ function mineCompatibiltyResults(){
 			                     //This is Philadelphia Museum of Art
 			                     {"lat": "39.965572", "long": "-75.182177"}
 			                     ],
-		    "commonInterests" :  [],		    
-		    "commonProfessional" : []
+			                     
+		    "commonInterests" :  [{"Political": "Both Supports Republican"},
+		                          {"Sports":"Baseball, football, Both are supporters of 'New York Yankees'"},
+		                          {"Music":"Bryan Admans"},{"Movies":"Al Pacino"}
+		                         ],	
+		                         
+		    "commonProfessional" : [{"Business domain":"Finance"},
+		                            {"Organisation":"IBM SWG"},
+		                            {"Communtities":"Top Coder"}]
 		};
 	
 		

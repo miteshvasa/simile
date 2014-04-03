@@ -110,7 +110,8 @@
 			"simile/LoginView",
 			"simile/MobileSearchView",		
 			"simile/MapCommonView",
-			"simile/PersonalCommonView",			
+			"simile/PersonalCommonView",
+			"simile/ProfessionalCommonView",			
 			"dojo/domReady!"
 		], function (parser, registry, ready,  Map , win, domStyle) {
 			flickrview = {};
@@ -180,12 +181,13 @@
                 <ul data-dojo-props="barType:&quot;tallTab&quot;, iconBase:&quot;&quot;, fill:&quot;auto&quot;" data-dojo-type="dojox/mobile/TabBar" style="height:100%">
                     <li data-dojo-props="icon1:&quot;images/location/light.png&quot;,
                        icon2:&quot;images/location/light.png&quot;,
-                       selected:true, transition:&quot;none&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
+                       selected:true,transition:&quot;slide&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
                     <li data-dojo-props="icon1:&quot;images/group/light.png&quot;,
                        icon2:&quot;images/group/light.png&quot;,
-                       transition:&quot;none&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
+                       transition:&quot;slide&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
                     <li data-dojo-props="icon1:&quot;images/professional/light.png&quot;,
-                       icon2:&quot;images/professional/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
+                       icon2:&quot;images/professional/light.png&quot;,
+                       transition:&quot;slide&quot;, moveTo: &quot;professionalCommonView&quot;,badge:&quot;3&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
                 </ul>
             </div>
             <div id="map" style="width:100%;height: 365px;background-color: #b5d0d0;"></div>
@@ -200,15 +202,39 @@
                 <ul data-dojo-props="barType:&quot;tallTab&quot;, iconBase:&quot;&quot;, fill:&quot;auto&quot;" data-dojo-type="dojox/mobile/TabBar" style="height:100%">
                     <li data-dojo-props="icon1:&quot;images/location/light.png&quot;,
                        icon2:&quot;images/location/light.png&quot;,
-                       transition:&quot;none&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
+                       transition:&quot;slide&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
                     <li data-dojo-props="icon1:&quot;images/group/light.png&quot;,
                        icon2:&quot;images/group/light.png&quot;,
-                       transition:&quot;none&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
+                       selected:true,transition:&quot;slide&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
                     <li data-dojo-props="icon1:&quot;images/professional/light.png&quot;,
-                       icon2:&quot;images/professional/light.png&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
+                       icon2:&quot;images/professional/light.png&quot;,
+                       transition:&quot;slide&quot;, moveTo: &quot;professionalCommonView&quot;,badge:&quot;3&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
                 </ul>
             </div>
-            <div id="personalCommon" style="width:100%;height: 365px;background-color: #b5d0d0;">We share these interests</div>
+            <div id="personalCommon">		
+            </div>
+        </div>
+<!-- Professional Common view -->
+        <div data-dojo-type="simile/ProfessionalCommonView" id="professionalCommonView">
+            <div data-dojo-props="fixed: 'top',label: 'Simile', float: 'right'" data-dojo-type="dojox/mobile/Heading" id="professionalCommonHeading">
+                <span data-dojo-props="icon: 'images/SimileIcon.png', moveTo:'#', transitionDir:'-1', transition:'none',label: 'Simile'" data-dojo-type="dojox/mobile/ToolBarButton" style=""></span>
+					<span data-dojo-props="icon: 'images/navigation/back_light.png', moveTo:'mobileSearchView', transitionDir:'-1', transition:'slide'" data-dojo-type="dojox/mobile/ToolBarButton" id="professionalCommonBackButton" style="float:right;"></span>
+            </div>
+            <div id="subHeading" style="height:100%">
+                <ul data-dojo-props="barType:&quot;tallTab&quot;, iconBase:&quot;&quot;, fill:&quot;auto&quot;" data-dojo-type="dojox/mobile/TabBar" style="height:100%">
+                    <li data-dojo-props="icon1:&quot;images/location/light.png&quot;,
+                       icon2:&quot;images/location/light.png&quot;,
+                       transition:&quot;slide&quot;, moveTo: &quot;mapCommonView&quot;,badge:&quot;2&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Locations</li>
+                    <li data-dojo-props="icon1:&quot;images/group/light.png&quot;,
+                       icon2:&quot;images/group/light.png&quot;,
+                       transition:&quot;slide&quot;, moveTo: &quot;personalCommonView&quot;,badge:&quot;4&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Interests</li>
+                    <li data-dojo-props="icon1:&quot;images/professional/light.png&quot;,
+                       icon2:&quot;images/professional/light.png&quot;,
+                       selected:true,transition:&quot;slide&quot;, moveTo: &quot;professionalCommonView&quot;,badge:&quot;3&quot;" data-dojo-type="dojox/mobile/TabBarButton" style="height:100%">Professional</li>
+                </ul>
+            </div>
+            <div id="professionalCommon">		
+            </div>
         </div>
         <script src="js/initOptions.js"></script>
     		<script src="js/Simile.js"></script>
